@@ -34,12 +34,12 @@ class RADOSGWQUOTACollector(object):
             yield metric
 
     def _request_data(self, query, args=None):
-        url = "http://{0}:{1}/{2}/?format=json&{3}".format(
-            self.host, self.port, query, args)
+        url = "http://{0}/{1}/?format=json&{2}".format(
+            self.host, query, args)
         try:
             response = requests.get(url, auth=S3Auth(self.access_key,
                                                      self.secret_key,
-                                                     "http://{0}:{1}".format(self.host, self.port)))
+                                                     "http://{0}".format(self.host)))
             if response.status_code == requests.codes.ok:
                 if DEBUG:
                     print(response)
@@ -121,10 +121,10 @@ def parse_args():
     )
     parser.add_argument(
         '-p', '--port',
-        required=True,
+        required=False,
         type=int,
         help='Port to listen',
-        default=int(os.environ.get('VIRTUAL_PORT', '9242'))
+        default=int(os.environ.get('VIRTUAL_PORT', 9247))
     )
     return parser.parse_args()
 
@@ -136,7 +136,7 @@ def main():
                                                 secret_key=args.secret_key)
                           )
         start_http_server(args.port)
-        print("Polling {0}. Serving at port: {1}".format(args.host, args.port))
+        print("Polling {0}. Serving at port: {1}".format('0.0.0.0', args.port))
         while True:
             time.sleep(1)
     except KeyboardInterrupt:
