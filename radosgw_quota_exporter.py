@@ -34,12 +34,12 @@ class RADOSGWQUOTACollector(object):
             yield metric
 
     def _request_data(self, query, args=None):
-        url = "http://{0}/{1}/?format=json&{2}".format(
+        url = "{0}/{1}/?format=json&{2}".format(
             self.host, query, args)
         try:
             response = requests.get(url, auth=S3Auth(self.access_key,
                                                      self.secret_key,
-                                                     "http://{0}".format(self.host)))
+                                                     "{0}".format(self.host)))
             if response.status_code == requests.codes.ok:
                 if DEBUG:
                     print(response)
