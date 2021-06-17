@@ -8,8 +8,8 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY radosgw_quota_exporter.py /usr/src/app
 
-EXPOSE 9242
-ENV RADOSGW_SERVER=http://radosgw:80 VIRTUAL_PORT=9242 DEBUG=0
+EXPOSE 9247
+ENV RADOSGW_SERVER=http://radosgw:80 VIRTUAL_PORT=9247 DEBUG=0
 
 ENTRYPOINT [ "python", "-u", "./radosgw_quota_exporter.py" ]
 CMD []
